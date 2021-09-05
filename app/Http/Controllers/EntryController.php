@@ -18,7 +18,7 @@ class EntryController extends Controller
     {
         function getEntryPairs()
         {
-            $arrAllEntries = Entry::all()->where('user_id', 1);
+            $arrAllEntries = Entry::all()->where('user_id', 1)->sortByDesc('date');
             $arrEntryPairs = [];
             $arrDates = [];
 

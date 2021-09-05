@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EntryController;
-
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,16 +14,18 @@ use App\Http\Controllers\EntryController;
 |
 */
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
-Route::get('/', EntryController::class);
+
+require __DIR__.'/auth.php';
+
+
+Route::get('/', EntryController::class)->middleware(['auth']) ->name('home');
 
 Route::get('/entry/add', function () {
     return view('addEntry');
-})->name('addEntry');
+})->middleware(['auth'])->name('addEntry');
 
-Route::post('/entry/add',  [EntryController::class, 'create'])->name('createEntry');
-
-
+Route::post('/entry/add',  [EntryController::class, 'create'])->middleware(['auth'])->name('createEntry');
