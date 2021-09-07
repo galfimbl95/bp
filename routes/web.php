@@ -28,4 +28,6 @@ Route::get('/entry/add', function () {
     return view('addEntry');
 })->middleware(['auth'])->name('addEntry');
 
+Route::get('entry/{date}', [EntryController::class, 'showDay'])->middleware(['auth'])->name('showDay');
+
 Route::post('/entry/add',  [EntryController::class, 'create'])->middleware(['auth'])->name('createEntry');

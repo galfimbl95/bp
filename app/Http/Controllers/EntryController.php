@@ -86,6 +86,15 @@ class EntryController extends Controller
 
         $entry->save();
 
-        return "Запись добавлена";
+        return redirect()->route('home');
+    }
+
+    public function showDay(Request $request, $date){
+        $dateStart = date_create_from_format( 'Y-m-d H:i:s',  $date.' 00:00:00');
+        $dateEnd = date_create_from_format( 'Y-m-d H:i:s',  $date.' 23:59:59');
+        $arrEntries = Entry::all()->where('user_id', 1)->where('date','>', $dateStart)->where('date','<', $dateEnd)->sortByDesc('date');
+        return view('entryForDay', [
+            'arrEntries' => $arrEntries
+        ]);
     }
 }
