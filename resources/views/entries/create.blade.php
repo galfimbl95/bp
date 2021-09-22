@@ -1,4 +1,4 @@
-@extends('master')
+@extends('entries.master')
 
 @section('title')
     {{'Журнал артериального давления'}}
@@ -17,7 +17,7 @@
             </div>
         @endif
 
-        <form action="{{route('createEntry')}}" method="post">
+        <form action="{{route('entries.store')}}" method="post">
             @csrf
             <div class="mb-3">
                 <label for="datetime" class="form-label">Дата и время</label>

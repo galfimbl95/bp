@@ -8,13 +8,8 @@ use Illuminate\Http\Request;
 
 class EntryController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function __invoke(Request $request)
+
+    public function index()
     {
         function getEntryPairs()
         {
@@ -68,7 +63,24 @@ class EntryController extends Controller
         ]);
     }
 
-    public function create(Request $request)
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('entries.create');
+    }
+
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
     {
         $request->validate([
             'datetime' => 'required',
@@ -86,15 +98,42 @@ class EntryController extends Controller
 
         $entry->save();
 
-        return redirect()->route('home');
+        return redirect()->route('entries.index')->with('success', 'Запись успешно добавлена.');
+
+
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Entry  $entry
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Entry $entry)
+    {
+        return view('entries.edit', compact('entry'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Entry  $entry
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Entry $entry)
+    {
+        $entry->delete();
+        return back()->with('success', 'Запись удалена');
     }
 
     public function showDay(Request $request, $date){
         $dateStart = date_create_from_format( 'Y-m-d H:i:s',  $date.' 00:00:00');
         $dateEnd = date_create_from_format( 'Y-m-d H:i:s',  $date.' 23:59:59');
         $arrEntries = Entry::all()->where('user_id', 1)->where('date','>', $dateStart)->where('date','<', $dateEnd)->sortByDesc('date');
-        return view('entryForDay', [
+        return view('entries.entryForDay', [
             'arrEntries' => $arrEntries
         ]);
+
+
     }
 }

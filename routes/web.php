@@ -18,16 +18,9 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-
 require __DIR__.'/auth.php';
 
+Route::redirect('/', '/entries')->middleware(['auth']) -> name('home');
+Route::resource('entries', EntryController::class)->middleware(['auth']);
+Route::get('entries/period/{date}', [EntryController::class, 'showDay'])->middleware(['auth'])->name('showDay');
 
-Route::get('/', EntryController::class)->middleware(['auth']) ->name('home');
-
-Route::get('/entry/add', function () {
-    return view('addEntry');
-})->middleware(['auth'])->name('addEntry');
-
-Route::get('entry/{date}', [EntryController::class, 'showDay'])->middleware(['auth'])->name('showDay');
-
-Route::post('/entry/add',  [EntryController::class, 'create'])->middleware(['auth'])->name('createEntry');
