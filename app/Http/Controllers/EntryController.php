@@ -115,6 +115,31 @@ class EntryController extends Controller
     }
 
     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Project  $project
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Entry $entry)
+    {
+        $request->validate([
+            'datetime' => 'required',
+            'numberSistol' => 'required|integer|min:40|max:300',
+            'numberDiastol' => 'required|integer|min:40|max:300',
+            'numberPulse' => 'max:3'
+        ]);
+
+        $entry->date =  $request->datetime;
+        $entry->sistol =  $request->numberSistol;
+        $entry->diastol =  $request->numberDiastol;
+        $entry->pulse =  $request->numberPulse;
+
+        return redirect()->route('entries.index')
+            ->with('success', 'Entry updated successfully');
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Entry  $entry

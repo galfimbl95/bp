@@ -20,17 +20,20 @@
         <form action="{{route('entries.update', $entry->id)}}" method="POST">
             @csrf
             @method('PUT')
+            @if (old('datetime'))
+                old('datetime')
+            @endif
             <div class="mb-3">
                 <label for="datetime" class="form-label">Дата и время</label>
                 <input name="datetime" type="datetime-local"
                        class="form-control @error('datetime') is-invalid @enderror" id="datetimeInput"
-                       aria-describedby="datetimeHelp" value="{{ old('datetime') }}">
+                       aria-describedby="datetimeHelp" value="{{$entry -> date->format("Y-m-d\TH:i")}}">
             </div>
             <div class="mb-3">
                 <label for="numberSistol" class="form-label">Верхнее</label>
                 <input name="numberSistol" type="number"
                        class="form-control @error('numberSistol') is-invalid @enderror" id="numberSistolInput"
-                       value="@if(old('numberSistol' != 100)){{ old('numberSistol') }} @else {{$entry -> sistol}}" @endif>
+                       value="{{$entry -> sistol}}">
             </div>
             <div class="mb-3">
                 <label for="numberDiastol" class="form-label">Нижнее</label>
@@ -41,7 +44,7 @@
             <div class="mb-3">
                 <label for="numberPulse" class="form-label">Пульс</label>
                 <input name="numberPulse" type="number" class="form-control @error('numberPulse') is-invalid @enderror"
-                       id="numberPulseInput" value="{{ old('numberPulse') }}">
+                       id="numberPulseInput" value="{{ $entry -> pulse }}">
             </div>
             <button type="submit" class="btn btn-primary">Отправить</button>
         </form>
