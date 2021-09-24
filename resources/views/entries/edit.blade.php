@@ -20,30 +20,34 @@
         <form action="{{route('entries.update', $entry->id)}}" method="POST">
             @csrf
             @method('PUT')
-            @if (old('datetime'))
-                old('datetime')
-            @endif
+
+            Old sistol ={{old('sistol')}}
+            <br>
+            @if(old('sistol') == null)$entry -> sistol = {{$entry -> sistol}}@else Old sistol ={{old('sistol')}}@endif
+            <hr>
+
             <div class="mb-3">
-                <label for="datetime" class="form-label">Дата и время</label>
-                <input name="datetime" type="datetime-local"
-                       class="form-control @error('datetime') is-invalid @enderror" id="datetimeInput"
-                       aria-describedby="datetimeHelp" value="{{$entry -> date->format("Y-m-d\TH:i")}}">
+                <label for="date" class="form-label">Дата и время</label>
+                <input name="date" type="datetime-local"
+                       class="form-control @error('date') is-invalid @enderror" id="datetimeInput"
+                       aria-describedby="datetimeHelp"
+                       value="@if(old('date')==null){{$entry -> date->format("Y-m-d\TH:i")}}@else{{old('date')}}@endif">
             </div>
             <div class="mb-3">
-                <label for="numberSistol" class="form-label">Верхнее</label>
-                <input name="numberSistol" type="number"
-                       class="form-control @error('numberSistol') is-invalid @enderror" id="numberSistolInput"
-                       value="{{$entry -> sistol}}">
+                <label for="sistol" class="form-label">Верхнее</label>
+                <input name="sistol" type="number"
+                       class="form-control @error('sistol') is-invalid @enderror" id="numberSistolInput"
+                       value="@if(old('sistol') == null){{$entry -> sistol}}@else{{old('sistol')}}@endif">
             </div>
             <div class="mb-3">
-                <label for="numberDiastol" class="form-label">Нижнее</label>
-                <input name="numberDiastol" type="number"
-                       class="form-control @error('numberDiastol') is-invalid @enderror" id="numberDiastolInput"
-                       value="{{ $entry -> diastol }}">
+                <label for="diastol" class="form-label">Нижнее</label>
+                <input name="diastol" type="number"
+                       class="form-control @error('diastol') is-invalid @enderror" id="numberDiastolInput"
+                       value="@if(old('diastol') == null){{$entry -> sistol}}@else{{old('sistol')}}@endif">
             </div>
             <div class="mb-3">
-                <label for="numberPulse" class="form-label">Пульс</label>
-                <input name="numberPulse" type="number" class="form-control @error('numberPulse') is-invalid @enderror"
+                <label for="pulse" class="form-label">Пульс</label>
+                <input name="pulse" type="number" class="form-control @error('pulse') is-invalid @enderror"
                        id="numberPulseInput" value="{{ $entry -> pulse }}">
             </div>
             <button type="submit" class="btn btn-primary">Отправить</button>

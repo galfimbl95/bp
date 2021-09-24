@@ -83,24 +83,16 @@ class EntryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'datetime' => 'required',
-            'numberSistol' => 'required|integer|min:40|max:300',
-            'numberDiastol' => 'required|integer|min:40|max:300',
-            'numberPulse' => 'max:3'
+            'date' => 'required',
+            'sistol' => 'required|integer|min:40|max:300',
+            'diastol' => 'required|integer|min:40|max:300',
+            'pulse' => 'max:3'
         ]);
-
-        $entry = new Entry;
+        $entry = new Entry($request->all());
         $entry->user_id =  1;
-        $entry->date =  $request->datetime;
-        $entry->sistol =  $request->numberSistol;
-        $entry->diastol =  $request->numberDiastol;
-        $entry->pulse =  $request->numberPulse;
-
         $entry->save();
 
         return redirect()->route('entries.index')->with('success', 'Запись успешно добавлена.');
-
-
     }
 
     /**
@@ -124,17 +116,13 @@ class EntryController extends Controller
     public function update(Request $request, Entry $entry)
     {
         $request->validate([
-            'datetime' => 'required',
-            'numberSistol' => 'required|integer|min:40|max:300',
-            'numberDiastol' => 'required|integer|min:40|max:300',
-            'numberPulse' => 'max:3'
+            'date' => 'required',
+            'sistol' => 'required|integer|min:40|max:300',
+            'diastol' => 'required|integer|min:40|max:300',
+            'pulse' => 'max:3'
         ]);
 
-        $entry->date =  $request->datetime;
-        $entry->sistol =  $request->numberSistol;
-        $entry->diastol =  $request->numberDiastol;
-        $entry->pulse =  $request->numberPulse;
-
+        $entry->update($request->all());
         return redirect()->route('entries.index')
             ->with('success', 'Entry updated successfully');
     }
