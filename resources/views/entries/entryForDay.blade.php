@@ -5,11 +5,7 @@
 @endsection
 @section('main')
     <div class="container">
-        @if ($message = Session::get('success'))
-            <div class="alert alert-success">
-                <p>{{ $message }}</p>
-            </div>
-        @endif
+
         <table class="table table-bordered table-sm">
             <thead>
             <tr>
@@ -55,6 +51,17 @@
             @endforeach
             </tbody>
         </table>
+
+        @if ($message = Session::get('success'))
+            <div id="successMessage" class="alert alert-success" style="  position: fixed;  bottom: 0px;  left: 20px;">
+                <p>{{ $message }}</p>
+            </div>
+        @endif
+        <script>
+            setTimeout(function() {
+                document.getElementById('successMessage').style.display = 'none';
+            }, 5000);
+        </script>
     </div>
 
 

@@ -7,11 +7,6 @@
 @section('main')
 
     <div class="container">
-        @if ($message = Session::get('success'))
-            <div class="alert alert-success">
-                <p>{{ $message }}</p>
-            </div>
-        @endif
         <table class="table table-bordered table-sm ">
             <thead>
             <tr>
@@ -59,18 +54,26 @@
             </tbody>
         </table>
     </div>
+    @if ($message = Session::get('success'))
+        <div id="successMessage" class="alert alert-success" style="  position: fixed;  bottom: 0px;  left: 20px;">
+            <p>{{ $message }}</p>
+        </div>
+    @endif
+    <script>
+        setTimeout(function() {
+            document.getElementById('successMessage').style.display = 'none';
+        }, 5000);
+    </script>
 
 @endsection
 
 @section('footer')
     <form action="{{route('entries.create')}}">
-        <button type="submit" style="  position: fixed;  bottom: 20px;  right: 20px;" >
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-journal-plus" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M8 5.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V10a.5.5 0 0 1-1 0V8.5H6a.5.5 0 0 1 0-1h1.5V6a.5.5 0 0 1 .5-.5z"/>
-                <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z"/>
-                <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z"/>
-            </svg>
+        <button type="submit" class="btn btn-primary" style="position: fixed;  bottom: 20px;  right: 20px;" >
+            <i class="bi bi-journal-plus"></i>
         </button>
     </form>
+
+
 @endsection
 

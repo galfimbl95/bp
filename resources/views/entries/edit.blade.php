@@ -43,7 +43,7 @@
                 <label for="diastol" class="form-label">Нижнее</label>
                 <input name="diastol" type="number"
                        class="form-control @error('diastol') is-invalid @enderror" id="numberDiastolInput"
-                       value="@if(old('diastol') == null){{$entry -> sistol}}@else{{old('sistol')}}@endif">
+                       value="@if(old('diastol') == null){{$entry -> sistol}}@else{{old('diastol')}}@endif">
             </div>
             <div class="mb-3">
                 <label for="pulse" class="form-label">Пульс</label>

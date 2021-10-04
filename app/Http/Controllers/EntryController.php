@@ -110,7 +110,7 @@ class EntryController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Project  $project
+     * @param  \App\Models\Entry  $entry
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Entry $entry)
@@ -124,7 +124,7 @@ class EntryController extends Controller
 
         $entry->update($request->all());
         return redirect()->route('entries.index')
-            ->with('success', 'Entry updated successfully');
+            ->with('success', 'Запись обновлена');
     }
 
     /**
