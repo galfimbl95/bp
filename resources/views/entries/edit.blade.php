@@ -21,10 +21,6 @@
             @csrf
             @method('PUT')
 
-            Old sistol ={{old('sistol')}}
-            <br>
-            @if(old('sistol') == null)$entry -> sistol = {{$entry -> sistol}}@else Old sistol ={{old('sistol')}}@endif
-            <hr>
 
             <div class="mb-3">
                 <label for="date" class="form-label">Дата и время</label>
