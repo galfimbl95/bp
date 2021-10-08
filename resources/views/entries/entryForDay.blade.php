@@ -53,7 +53,7 @@
         </table>
 
         @if ($message = Session::get('success'))
-            <div id="successMessage" class="alert alert-success" style="  position: fixed;  bottom: 0px;  left: 20px;">
+            <div id="successMessage" class="alert alert-success" style="position: fixed;  bottom: 50px; left: 20px; right: 20px; text-align: center;">
                 <p>{{ $message }}</p>
             </div>
         @endif
