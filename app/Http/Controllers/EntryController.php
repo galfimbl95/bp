@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Entry;
-use DateTime;
+use App\Models\User;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class EntryController extends Controller
 {
@@ -13,7 +16,7 @@ class EntryController extends Controller
     {
         function getEntryPairs()
         {
-            $arrAllEntries = Entry::all()->where('user_id', 1)->sortByDesc('date');
+            $arrAllEntries = Entry::all()->where('user_id', Auth::user() -> id)->sortByDesc('date');
             $arrEntryPairs = [];
             $arrDates = [];
 
@@ -89,7 +92,7 @@ class EntryController extends Controller
             'pulse' => 'max:3'
         ]);
         $entry = new Entry($request->all());
-        $entry->user_id =  1;
+        $entry->user_id =  Auth::user() -> id;
         $entry->save();
 
         return redirect()->route('entries.index')->with('success', 'Запись успешно добавлена.');
@@ -103,6 +106,9 @@ class EntryController extends Controller
      */
     public function edit(Entry $entry)
     {
+        if (Gate::denies ('update-entry', $entry)) {
+            abort(403);
+        }
         return view('entries.edit', compact('entry'));
     }
 
@@ -115,6 +121,10 @@ class EntryController extends Controller
      */
     public function update(Request $request, Entry $entry)
     {
+        if (Gate::denies ('update-entry', $entry)) {
+            abort(403);
+        }
+
         $request->validate([
             'date' => 'required',
             'sistol' => 'required|integer|min:40|max:300',
@@ -135,6 +145,10 @@ class EntryController extends Controller
      */
     public function destroy(Entry $entry)
     {
+        if (Gate::denies ('update-entry', $entry)) {
+            abort(403);
+        }
+
         $entry->delete();
         return back()->with('success', 'Запись удалена');
     }
@@ -142,7 +156,7 @@ class EntryController extends Controller
     public function showDay(Request $request, $date){
         $dateStart = date_create_from_format( 'Y-m-d H:i:s',  $date.' 00:00:00');
         $dateEnd = date_create_from_format( 'Y-m-d H:i:s',  $date.' 23:59:59');
-        $arrEntries = Entry::all()->where('user_id', 1)->where('date','>', $dateStart)->where('date','<', $dateEnd)->sortByDesc('date');
+        $arrEntries = Entry::all()->where('user_id', Auth::user() -> id)->where('date','>', $dateStart)->where('date','<', $dateEnd)->sortByDesc('date');
         return view('entries.entryForDay', [
             'arrEntries' => $arrEntries
         ]);
